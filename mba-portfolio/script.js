@@ -10,29 +10,24 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     });
 
-    // Mobile Sidebar Toggle
+    // Mobile Navbar Toggle
     const hamburger = document.querySelector('.hamburger');
-    const sidebar = document.querySelector('.sidebar');
-    const overlay = document.querySelector('.sidebar-overlay');
     const navLinksList = document.querySelectorAll('.nav-links a');
 
-    function toggleSidebar() {
-        sidebar.classList.toggle('active');
-        overlay.classList.toggle('active');
+    function toggleMobileMenu() {
+        navbar.classList.toggle('mobile-active');
     }
 
-    function closeSidebar() {
-        sidebar.classList.remove('active');
-        overlay.classList.remove('active');
+    function closeMobileMenu() {
+        navbar.classList.remove('mobile-active');
     }
 
-    hamburger.addEventListener('click', toggleSidebar);
-    overlay.addEventListener('click', closeSidebar);
+    hamburger.addEventListener('click', toggleMobileMenu);
 
-    // Close sidebar when a navigation link is clicked
+    // Close menu when a navigation link is clicked
     navLinksList.forEach(link => {
         link.addEventListener('click', () => {
-            closeSidebar();
+            closeMobileMenu();
         });
     });
 
@@ -82,6 +77,26 @@ document.addEventListener('DOMContentLoaded', () => {
         } else {
             location.hash = '#home';
         }
+    });
+
+    // Scroll Animations Observer
+    const observerOptions = {
+        threshold: 0.15,
+        rootMargin: "0px 0px -50px 0px"
+    };
+
+    const scrollObserver = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                entry.target.classList.add('is-visible');
+                // Optional: unobserve if you only want it to animate once
+                // scrollObserver.unobserve(entry.target);
+            }
+        });
+    }, observerOptions);
+
+    document.querySelectorAll('.animate-on-scroll').forEach(el => {
+        scrollObserver.observe(el);
     });
 
 });
